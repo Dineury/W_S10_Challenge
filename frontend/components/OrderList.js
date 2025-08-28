@@ -1,25 +1,24 @@
 import React from 'react'
 import { useGetHistoryOfOrdersQuery } from '../state/pizzaApi'
-
 export default function OrderList() {
   const {data: orders, error: PizzaError, isLoading:PizzaLoading} = useGetHistoryOfOrdersQuery()
-  
+ 
   return (
     <div id="orderList">
       <h2>Pizza Orders</h2>
       <ol>
+       
         {
-         orders ?  orders.map(order => {
-        
+       orders?.map(order => {
+        console.log(order)
             return (
               <li key={order.id}>
                 <div>
-                {`${order.customer} ordered a size ${order.size} toppings:${order.toppings}`}
+                {`${order.customer} ordered a size ${order.size} with ${order.toppings.length} toppings`}
                 </div>
               </li>
             )
           })
-          : []
         }
       </ol>
       <div id="sizeFilters">

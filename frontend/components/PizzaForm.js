@@ -1,4 +1,6 @@
-import React from 'react'
+import React, { useReducer } from 'react'
+// import { useChangeNameMutation } from '../state/pizzaApi'
+
 
 const initialFormState = { // suggested
   fullName: '',
@@ -10,7 +12,18 @@ const initialFormState = { // suggested
   '5': false,
 }
 
+
+
 export default function PizzaForm() {
+// const [ state, dispatch ] = useReducer()
+  
+    
+   const nameHandler = (e) => {
+    changeName({fullName: e.target.value})
+   }
+  
+
+
   return (
     <form>
       <h2>Pizza Form</h2>
@@ -26,6 +39,8 @@ export default function PizzaForm() {
             name="fullName"
             placeholder="Type full name"
             type="text"
+          //  onChange={nameHandler}
+           
           />
         </div>
       </div>
@@ -59,7 +74,7 @@ export default function PizzaForm() {
           <input data-testid="checkHam" name="5" type="checkbox" />
           Ham<br /></label>
       </div>
-      <input data-testid="submit" type="submit" />
+      <input data-testid="submit" type="submit"/>
     </form>
   )
 }
