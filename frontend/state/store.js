@@ -1,18 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { pizzaApi } from './pizzaApi'
-
-const pizzaReducer = (state = { 
-  fullName: '',
-  size: '',
-  toppings: []
-}) => {
-  return state
-}
+import { pizzaReducer } from  './pizzaSateRedu'
 
 export const resetStore = () => configureStore({
   reducer: {
     pizzaState: pizzaReducer,
-    [pizzaApi.reducerPath]: pizzaApi.reducer 
+    [pizzaApi.reducerPath]: pizzaApi.reducer
     // add your reducer(s) here
   },
   middleware: getDefault => getDefault().concat(

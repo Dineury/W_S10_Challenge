@@ -1,20 +1,22 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useGetHistoryOfOrdersQuery } from '../state/pizzaApi'
 export default function OrderList() {
-  const {data: orders, error: PizzaError, isLoading:PizzaLoading} = useGetHistoryOfOrdersQuery()
- 
-  return (
-    <div id="orderList">
+  const {data: orders} = useGetHistoryOfOrdersQuery()
+   const [activeSize, setActiveSize] = useState("All")
+
+
+return (
+  <div id="orderList">
       <h2>Pizza Orders</h2>
       <ol>
        
         {
-       orders?.map(order => {
-        console.log(order)
+          orders?.map(order => {
             return (
               <li key={order.id}>
                 <div>
-                {`${order.customer} ordered a size ${order.size} with ${order.toppings.length} toppings`}
+               {`${order.customer} ordered a size ${order.size} with ${
+                 order.toppings?.length === 0 ? 'no' : order.toppings?.length || 'no' } toppings`}
                 </div>
               </li>
             )
@@ -25,11 +27,14 @@ export default function OrderList() {
         Filter by size:
         {
           ['All', 'S', 'M', 'L'].map(size => {
-            const className = `button-filter${size === 'All' ? ' active' : ''}`
+            const className = size === activeSize ? "button-filter active" : "button-filter"
             return <button
-              data-testid={`filterBtn${size}`}
+            data-testid={`filterBtn${size}`}
               className={className}
-              key={size}>{size}</button>
+              key={size}  
+              onClick={ () => setActiveSize(size)}
+              >{size}</button>
+              
           })
         }
       </div>
