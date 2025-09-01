@@ -1,6 +1,6 @@
 import React, { useReducer } from 'react'
 import {  } from '../state/pizzaApi'
-import { pizzaReducer, CHANGE_INPUT, CHANGE_SIZE, SELECT_TOPPING } from '../state/pizzaSateRedu'
+import { pizzaReducer, CHANGE_INPUT, CHANGE_SIZE,  RESET_fORM } from '../state/pizzaSateRedu'
 import { useOrderPizzaMutation } from '../state/pizzaApi'
 
 const initialFormState = { // suggested
@@ -25,16 +25,15 @@ export default function PizzaForm() {
 const sizeHandler = ({target: { name: size, value }}) => {
   dispatch({type: CHANGE_SIZE, payload: {size, value}})
 }
-const toppingHandler = ({target: { name: topping, value }}) => {
-  dispatch({type: SELECT_TOPPING, payload: {topping, value}})
-}
-  
   const orderPizza = (evt) => {
     evt.preventDefault()
     const { fullName, size, toppings } = state
    CreatePizza({ fullName, size, toppings })
+   dispatch({ type: RESET_fORM})
   }
   
+
+
   
   return (
     <form>
@@ -61,7 +60,7 @@ const toppingHandler = ({target: { name: topping, value }}) => {
       <div className="input-group">
         <div>
           <label htmlFor="size">Size</label><br />
-          <select data-testid="sizeSelect" id="size" name="size" onChange={sizeHandler}>
+          <select data-testid="sizeSelect" id="size" value={state.size} name="size" onChange={sizeHandler}>
             <option value="">----Choose size----</option>
             <option value="S">Small</option>
             <option value="M">Medium</option>
@@ -72,19 +71,19 @@ const toppingHandler = ({target: { name: topping, value }}) => {
 
       <div className="input-group">
         <label>
-          <input data-testid="checkPepperoni" name="1" type="checkbox" onClick={toppingHandler}/>
+          <input data-testid="checkPepperoni" name="1" type="checkbox" checked={state.toppings.includes(1)} onChange={() => dispatch({ type: 'SELECT_TOPPING', payload: { topping: 1 } })}/>
           Pepperoni<br /></label>
         <label>
-          <input data-testid="checkGreenpeppers" name="2" type="checkbox" onClick={toppingHandler}/>
+          <input data-testid="checkGreenpeppers" name="2" type="checkbox" checked={state.toppings.includes(2)} onChange={() => dispatch({ type: 'SELECT_TOPPING', payload: { topping: 2 } })}/>
           Green Peppers<br /></label>
         <label>
-          <input data-testid="checkPineapple" name="3" type="checkbox" onClick={toppingHandler}/>
+          <input data-testid="checkPineapple" name="3" type="checkbox" checked={state.toppings.includes(3)} onChange={() => dispatch({ type: 'SELECT_TOPPING', payload: { topping: 3 } })}/>
           Pineapple<br /></label>
         <label>
-          <input data-testid="checkMushrooms" name="4" type="checkbox" onClick={toppingHandler}/>
+          <input data-testid="checkMushrooms" name="4" type="checkbox" checked={state.toppings.includes(4)} onChange={() => dispatch({ type: 'SELECT_TOPPING', payload: { topping: 4 } })}/>
           Mushrooms<br /></label>
         <label>
-          <input data-testid="checkHam" name="5" type="checkbox" onClick={toppingHandler}/>
+          <input data-testid="checkHam" name="5" type="checkbox" checked={state.toppings.includes(5)} onChange={() => dispatch({ type: 'SELECT_TOPPING', payload: { topping: 5 } })}/>
           Ham<br /></label>
       </div>
       <input data-testid="submit" type="submit" onClick={orderPizza}/>

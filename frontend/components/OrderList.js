@@ -4,6 +4,11 @@ export default function OrderList() {
   const {data: orders} = useGetHistoryOfOrdersQuery()
    const [activeSize, setActiveSize] = useState("All")
 
+   const visibleOrders = (orders ?? []).filter(order => {
+    if(activeSize === 'All' || order.size === activeSize){
+      return order
+    }
+   })
 
 return (
   <div id="orderList">
@@ -11,7 +16,7 @@ return (
       <ol>
        
         {
-          orders?.map(order => {
+          visibleOrders?.map(order => {
             return (
               <li key={order.id}>
                 <div>
@@ -34,7 +39,6 @@ return (
               key={size}  
               onClick={ () => setActiveSize(size)}
               >{size}</button>
-              
           })
         }
       </div>

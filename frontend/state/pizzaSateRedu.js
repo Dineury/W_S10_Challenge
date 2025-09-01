@@ -3,7 +3,7 @@
 export const CHANGE_INPUT = 'CHANGE_INPUT'
 export const CHANGE_SIZE = 'CHANGE_SIZE'
 export const SELECT_TOPPING = 'SELECT_TOPPING'
-
+export const RESET_fORM = 'RESET_FORM'
 
 
 export const pizzaReducer = (state= {
@@ -22,15 +22,18 @@ export const pizzaReducer = (state= {
     }
     case SELECT_TOPPING: {
         const {topping} = action.payload
-        const isSelected = !state[topping]
-        
-    
-     return { ...state, [topping]: 
-        isSelected, toppings: isSelected 
-        ?[...state.toppings, topping]
-        : state.toppings.filter(item => item !== topping)}
+        const isSelected = state.toppings.includes(topping)
+
+     return { ...state, toppings:
+        isSelected ? state.toppings.filter(item => item !== topping)
+       : [...state.toppings, topping]}
             
+    } 
+    case RESET_fORM: {
+        
+        return { fullName: '', size: '', toppings: []   }
     }
+
     default: return state
    
  }
